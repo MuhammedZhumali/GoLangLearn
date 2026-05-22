@@ -159,6 +159,57 @@ OuterLoop:
 
 	var addsNums = []int{1, 2, 3, 4, 5}
 	adds(addsNums...)
+
+	///////////
+
+	s := make([]string, 3)
+	fmt.Println("emp: ", s)
+
+	s[0] = "a"
+	s[1] = "b"
+	s[2] = "c"
+	fmt.Println("set: ", s)
+	fmt.Println("get: ", s[2])
+
+	fmt.Println("len: ", len(s))
+
+	s = append(s, "x")
+	s = append(s, "s")
+	fmt.Println("After append: ", s)
+
+	copyS := make([]string, len(s))
+	copy(copyS, s)
+	fmt.Println("Coppied: ", copyS)
+
+	l := s[2:5]
+	fmt.Println("slice1: ", l)
+
+	l = s[:5]
+	fmt.Println("slc2: ", l)
+
+	l = s[2:]
+	fmt.Println("slc3: ", l)
+
+	t := []string{"a", "b", "c"}
+	fmt.Println("raw: ", t)
+
+	twoD := make([][]int, 3)
+	for i := 0; i < 3; i++ {
+		innerLen := i + 1
+		twoD[i] = make([]int, innerLen)
+		for j := 0; j < innerLen; j++ {
+			twoD[i][j] = i + j
+		}
+	}
+	fmt.Println("2D: ", twoD)
+
+	for i := 0; i < 3; i++ {
+		twoD[i] = make([]int, 2)
+		for j := 0; j < 2; j++ {
+			twoD[i][j] = i + j
+		}
+	}
+	fmt.Println("3x2 matrix: ", twoD)
 }
 
 func add(x int, y int) {
