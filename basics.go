@@ -142,4 +142,46 @@ OuterLoop:
 	}
 
 	fmt.Println("Loop exited")
+
+	add(4, 5)
+	add(7, 8)
+
+	addV2(1, 2, 3.4, 5.6, 1.2)
+
+	var variable = 8
+	fmt.Println("var before: ", variable)
+	increment(variable)
+	fmt.Println("Var after: ", variable)
+
+	adds(1, 2, 3)
+	adds(1, 2, 3, 4)
+	adds(4, 5, 6, 7, 8)
+
+	var addsNums = []int{1, 2, 3, 4, 5}
+	adds(addsNums...)
+}
+
+func add(x int, y int) {
+	fmt.Println(x + y)
+}
+
+func addV2(x, y int, a, b, c float32) {
+	var z = x + y
+	var d = a + b + c
+	fmt.Println("x + y = ", z)
+	fmt.Println("a + b + c = ", d)
+}
+
+func increment(x int) {
+	fmt.Println("X before: ", x)
+	x += 20
+	fmt.Println("X after: ", x)
+}
+
+func adds(numbers ...int) {
+	var sum = 0
+	for _, number := range numbers {
+		sum += number
+	}
+	fmt.Println("sum = ", sum)
 }
