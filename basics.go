@@ -210,6 +210,52 @@ OuterLoop:
 		}
 	}
 	fmt.Println("3x2 matrix: ", twoD)
+
+	m := make(map[string]int)
+	m["k2"] = 7
+	m["k3"] = 17
+
+	fmt.Println("map: ", m)
+
+	v1 := m["k2"]
+	fmt.Println(v1)
+
+	fmt.Println(len(m))
+
+	delete(m, "k2")
+	fmt.Println("map: ", m)
+
+	_, prs := m["k2"]
+	fmt.Println("exists: ", prs)
+
+	n := map[string]int{"foo": 1, "bar": 2}
+	fmt.Println(n)
+
+	nums := []int{2, 3, 4}
+	sum := 0
+	for _, num := range nums {
+		sum += num
+	}
+	fmt.Println("sum: ", sum)
+
+	for i, num := range nums {
+		if num == 3 {
+			fmt.Println("index: ", i)
+		}
+	}
+
+	kvs := map[string]string{"a": "apple", "b": "banana"}
+	for k, v := range kvs {
+		fmt.Printf("%s->%s\n", k, v)
+	}
+
+	for k := range kvs {
+		fmt.Printf("key: %s\n", k)
+	}
+
+	for i, c := range "go" {
+		fmt.Println(i, c)
+	}
 }
 
 func add(x int, y int) {
