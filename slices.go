@@ -21,6 +21,29 @@ func main() {
 
 	//Task 5
 	fmt.Println(revers(nums))
+
+	//Task 6
+	fmt.Println(contains(nums, 6))
+
+	//Task 7
+	fmt.Println(countTarget([]int{1, 2, 2, 3, 2}, 2))
+
+	//Task 8
+	fmt.Println(filterEven(nums))
+
+	//Task 9
+	fmt.Println(removeLast(nums))
+
+	//Task 10
+	stack := []int{}
+	stack = append(stack, 10)
+	stack = append(stack, 20)
+	stack = append(stack, 30)
+	top := stack[len(stack)-1]
+	fmt.Println("top:", top)
+
+	stack = stack[:len(stack)-1]
+	fmt.Println("stack:", stack)
 }
 
 func sum(nums []int) int {
@@ -57,4 +80,41 @@ func revers(nums []int) []int {
 		rev = append(rev, nums[i])
 	}
 	return rev
+}
+
+func contains(nums []int, target int) bool {
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == target {
+			return true
+		}
+	}
+	return false
+}
+
+func countTarget(nums []int, target int) int {
+	count := 0
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == target {
+			count++
+		}
+	}
+	return count
+}
+
+func filterEven(nums []int) []int {
+	var filter []int
+	for i := 0; i < len(nums); i++ {
+		if nums[i]%2 == 0 {
+			filter = append(filter, nums[i])
+		}
+	}
+	return filter
+}
+
+func removeLast(nums []int) []int {
+	if len(nums) == 0 {
+		return nums
+	}
+	nums = nums[:len(nums)-1]
+	return nums
 }
