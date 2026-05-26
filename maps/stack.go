@@ -26,6 +26,10 @@ func main() {
 	fmt.Println(isValidMap("{[]}"))   // true
 	fmt.Println(isValidMap("("))      // false
 	fmt.Println(isValidMap("]"))      // false
+
+	fmt.Println(isAnagram("anagram", "nagaram")) // true
+	fmt.Println(isAnagram("rat", "car"))         // false
+	fmt.Println(isAnagram("listen", "silent"))   //true
 }
 
 func isValid(s string) bool {
@@ -94,4 +98,27 @@ func isValidMap(s string) bool {
 		}
 	}
 	return len(stack) == 0
+}
+
+func isAnagram(s string, t string) bool {
+	if len(s) != len(t) {
+		return false
+	}
+	count := map[byte]int{}
+
+	for i := 0; i < len(s); i++ {
+		count[s[i]]++
+	}
+
+	for i := 0; i < len(t); i++ {
+		count[t[i]]--
+	}
+
+	for _, v := range count {
+		if v != 0 {
+			return false
+		}
+	}
+
+	return true
 }
