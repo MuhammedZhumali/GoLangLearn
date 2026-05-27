@@ -27,6 +27,14 @@ func main() {
 	fmt.Println(tasks)
 	tasks = deleteTask(tasks, 2)
 	fmt.Println(tasks)
+
+	task, found := findTaskById(tasks, 1)
+
+	if found {
+		fmt.Println("Found:", task)
+	} else {
+		fmt.Println("Task not found")
+	}
 }
 
 func addTask(tasks []Task, title string) []Task {
@@ -70,4 +78,15 @@ func deleteTask(tasks []Task, id int) []Task {
 		}
 	}
 	return result
+}
+
+func findTaskById(tasks []Task, id int) (Task, bool) {
+	for i := range tasks {
+		if tasks[i].ID == id {
+			return tasks[i], true
+		}
+	}
+
+	return Task{}, false
+
 }
