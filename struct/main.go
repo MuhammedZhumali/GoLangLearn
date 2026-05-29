@@ -8,6 +8,11 @@ type Task struct {
 	Done  bool
 }
 
+type TaskManager struct {
+	tasks []Task
+	nextID int
+}
+
 func main() {
 	tasks := []Task{
 		{ID: 1, Title: "Learn Go", Done: true},
@@ -35,6 +40,14 @@ func main() {
 	} else {
 		fmt.Println("Task not found")
 	}
+
+	for i:= range tasks {
+		tasks[i].MarkDone()
+		tasks[i].Print()
+	}
+
+	tasks[0].Rename("Learn Go in depth")
+	tasks[0].Print()
 }
 
 func addTask(tasks []Task, title string) []Task {
@@ -90,3 +103,23 @@ func findTaskById(tasks []Task, id int) (Task, bool) {
 	return Task{}, false
 
 }
+
+
+func (t Task) Print(){
+	if t.Done {
+		fmt.Printf("[✓] %d: - %s\n", t.ID, t.Title)
+	} else {
+		fmt.Printf("[ ] %d: - %s\n", t.ID, t.Title)
+	}
+}
+
+func (t *Task) MarkDone() {
+	if !t.Done{
+		t.Done = true
+	}
+}
+
+func (t *Task) Rename(newTitle string){
+	t.Title = newTitle
+}
+
