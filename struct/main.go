@@ -48,6 +48,16 @@ func main() {
 
 	tasks[0].Rename("Learn Go in depth")
 	tasks[0].Print()
+
+	tm := NewTaskManager()
+
+	tm.AddTask("Learn Go")
+	tm.AddTask("Build API")
+	tm.AddTask("Write tests")
+
+	for i:= range tm.tasks{
+		fmt.Printf("ID: %d, Title: %s, Done: %t\n", tm.tasks[i].ID, tm.tasks[i].Title, tm.tasks[i].Done)
+	}
 }
 
 func addTask(tasks []Task, title string) []Task {
@@ -123,3 +133,13 @@ func (t *Task) Rename(newTitle string){
 	t.Title = newTitle
 }
 
+func NewTaskManager() TaskManager {
+	tasks := []Task{}
+	return TaskManager{tasks: tasks, nextID: 1}
+}
+
+func (tm *TaskManager) AddTask(title string){
+	newTask := Task{ID: tm.nextID, Title: title, Done: false}
+	tm.tasks = append(tm.tasks, newTask)
+	tm.nextID++
+}
