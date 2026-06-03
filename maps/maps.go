@@ -14,6 +14,8 @@ func main() {
 
 	//Task 4
 	fmt.Println(twoSumMap([]int{2, 7, 11, 15}, 9))
+
+	fmt.Println(mostFrequent([]string{"go", "java", "go", "python", "go", "java"}))
 }
 
 func countWords(words []string) map[string]int {
@@ -68,4 +70,21 @@ func twoSumMap(nums []int, target int) []int {
 	}
 
 	return []int{}
+}
+
+func mostFrequent(words []string) string {
+	count := map[string]int{}
+	mostFreq := ""
+	for i := 0; i < len(words); i++ {
+		count[words[i]]++
+	}
+	maxCount := 0
+	for word, c := range count {
+		if c > maxCount {
+			maxCount = c
+			mostFreq = word
+		}
+	}
+
+	return mostFreq
 }

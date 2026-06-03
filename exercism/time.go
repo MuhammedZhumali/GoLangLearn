@@ -1,22 +1,25 @@
 package exercism
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // Schedule returns a time.Time from a string containing a date.
 func Schedule(date string) time.Time {
-    layout := "1/2/2006 15:04:05"
+	layout := "1/2/2006 15:04:05"
 
-    t,_:=time.Parse(layout, date)
-	
-    return t
+	t, _ := time.Parse(layout, date)
+
+	return t
 }
 
 // HasPassed returns whether a date has passed.
 func HasPassed(date string) bool {
-    layout := "January 2, 2006 15:04:05"
-    t, _ := time.Parse(layout, date)
+	layout := "January 2, 2006 15:04:05"
+	t, _ := time.Parse(layout, date)
 
-    return t.Before(time.Now())
+	return t.Before(time.Now())
 }
 
 // IsAfternoonAppointment returns whether a time is in the afternoon.
@@ -26,7 +29,7 @@ func IsAfternoonAppointment(date string) bool {
 
 	hour := t.Hour()
 
-	if hour >= 12 && hour < 18{
+	if hour >= 12 && hour < 18 {
 		return true
 	}
 
@@ -37,12 +40,11 @@ func IsAfternoonAppointment(date string) bool {
 func Description(date string) string {
 	layout := "1/2/2006 15:04:05"
 
-    t, _ := time.Parse(layout, date)
+	t, _ := time.Parse(layout, date)
 
-	desc := fmt.Sprintf("You have an appointment on %s, %s %d, %d, at %d:%d.", t.Weekday(), t.Month(), t.Day(), t.Year(), t.Hour(), t.Minute())
-    
-    return desc
-    
+	desc := fmt.Sprintf("You have an appointment on %s, %s %d, %d, at %d:%02d.", t.Weekday(), t.Month(), t.Day(), t.Year(), t.Hour(), t.Minute())
+
+	return desc
 }
 
 // AnniversaryDate returns a Time with this year's anniversary.

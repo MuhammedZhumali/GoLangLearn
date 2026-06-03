@@ -74,9 +74,22 @@ func isValidMap(s string) bool {
 		']': '[',
 		'}': '{',
 	}
+	allowed := map[byte]bool{
+		'(': true,
+		')': true,
+		'[': true,
+		']': true,
+		'{': true,
+		'}': true,
+	}
 
 	for i := 0; i < len(s); i++ {
 		ch := s[i]
+
+		_, exists := allowed[ch]
+		if !exists {
+			return false
+		}
 
 		open, isClosing := pairs[ch]
 
@@ -97,6 +110,7 @@ func isValidMap(s string) bool {
 			stack = append(stack, ch)
 		}
 	}
+
 	return len(stack) == 0
 }
 
