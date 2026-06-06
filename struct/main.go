@@ -67,6 +67,42 @@ func main() {
 
 	fmt.Println("Deleted task 1:", tm.DeleteTask(1))
 	fmt.Println("After delete:", tm.tasks)
+
+	fmt.Println("Enter your option: ")
+	fmt.Println("1. Add \n 2. Mark done \n 3. Delete \n 4. List \n 5. Quit")
+	var option int
+	fmt.Scanln(&option)
+	for option != 5 {
+		switch option {
+			case 1: 
+				fmt.Println("Enter task title: ")
+				var title string 
+				fmt.Scanln(&title)
+				tm.AddTask(title)
+				
+			case 2:
+				fmt.Println("Enter task ID to mark done: ")
+				var id int 
+				fmt.Scanln(&id)
+				tm.MarkDone(id)
+			case 3:
+				fmt.Println("Enter task ID to delete: ")
+				var id int 
+				fmt.Scanln(&id)
+				tm.DeleteTask(id)
+			case 4: 
+				fmt.Println("Tasks:: ")
+				for i := range tm.tasks{
+					tm.tasks[i].Print()
+				}
+			case 5: 
+				fmt.Println("Exiting...")
+				break
+			default: 
+				fmt.Println("Invalid option")
+			}
+	}
+	
 }
 
 func addTask(tasks []Task, title string) []Task {
