@@ -68,43 +68,61 @@ func main() {
 	fmt.Println("Deleted task 1:", tm.DeleteTask(1))
 	fmt.Println("After delete:", tm.tasks)
 
+MenuLoop:
+	for {
+		fmt.Println("Enter your option: ")
+		fmt.Println("1. Add \n 2. Mark done \n 3. Delete \n 4. List \n 5. Quit")
+		var option int
+		_, err := fmt.Scanln(&option)
+		if err != nil {
+			fmt.Println("Invalid input, please enter a number")
+			continue
+		}
 
-	MenuLoop: 
-		for {
-			fmt.Println("Enter your option: ")
-			fmt.Println("1. Add \n 2. Mark done \n 3. Delete \n 4. List \n 5. Quit")
-			var option int
-			fmt.Scanln(&option)
-			
-			switch option {
-				case 1: 
-					fmt.Println("Enter task title: ")
-					var title string 
-					fmt.Scanln(&title)
-					tm.AddTask(title)
+		switch option {
+		case 1:
+			fmt.Println("Enter task title: ")
+			var title string
+			fmt.Scanln(&title)
+			tm.AddTask(title)
 
-				case 2:
-					fmt.Println("Enter task ID to mark done: ")
-					var id int 
-					fmt.Scanln(&id)
-					tm.MarkDone(id)
-				case 3:
-					fmt.Println("Enter task ID to delete: ")
-					var id int 
-					fmt.Scanln(&id)
-					tm.DeleteTask(id)
-				case 4: 
-					fmt.Println("Tasks:: ")
-					for i := range tm.tasks{
-						tm.tasks[i].Print()
-					}
-				case 5: 
-					fmt.Println("Exiting...")
-					break MenuLoop
-				default: 
-					fmt.Println("Invalid option")
-				}
-		}	
+		case 2:
+			fmt.Println("Enter task ID to mark done: ")
+			var id int
+			_, err := fmt.Scanln(&id)
+			if err != nil{
+				fmt.Println("Invalid input, please enter a number")
+				continue
+			}
+			if tm.MarkDone(id) {
+				fmt.Println("Task marked as done.")
+			} else {
+				fmt.Println("Task not found.")
+			}
+
+		case 3:
+			fmt.Println("Enter task ID to delete: ")
+			var id int
+			_, err := fmt.Scanln(&id)
+			if err != nil{
+				fmt.Println("Invalid input, please enter a number")
+				continue
+			}
+			if tm.DeleteTask(id) {
+				fmt.Println("Task deleted.")
+			} else {
+				fmt.Println("Task not found.")
+			}
+		case 4:
+			fmt.Println("Tasks:: ")
+			tm.PrintTasks()
+		case 5:
+			fmt.Println("Exiting...")
+			break MenuLoop
+		default:
+			fmt.Println("Invalid option")
+		}
+	}
 }
 
 func addTask(tasks []Task, title string) []Task {
@@ -243,4 +261,10 @@ func (tm *TaskManager) ListPending() []Task {
 	}
 
 	return pendingTasks
+}
+
+func (tm *TaskManager) PrintTasks() {
+	for i := range tm.tasks {
+		tm.tasks[i].Print()
+	}
 }
