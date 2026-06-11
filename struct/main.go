@@ -62,8 +62,11 @@ func main() {
 	fmt.Println("Done:", tm.ListDone())
 	fmt.Println("Pending:", tm.ListPending())
 
-	task, found = tm.FindTask(1)
-	fmt.Println("Find task 1:", task, found)
+	if task, err := tm.FindTask(1); err == nil {
+		fmt.Println("Found task 1:", task)
+	} else {
+		fmt.Println("Task 1 not found:", err)
+	}
 
 	fmt.Println("Deleted task 1:", tm.DeleteTask(1))
 	fmt.Println("After delete:", tm.tasks)
@@ -90,7 +93,7 @@ MenuLoop:
 			fmt.Println("Enter task ID to mark done: ")
 			var id int
 			_, err := fmt.Scanln(&id)
-			if err != nil{
+			if err != nil {
 				fmt.Println("Invalid input, please enter a number")
 				continue
 			}
@@ -104,7 +107,7 @@ MenuLoop:
 			fmt.Println("Enter task ID to delete: ")
 			var id int
 			_, err := fmt.Scanln(&id)
-			if err != nil{
+			if err != nil {
 				fmt.Println("Invalid input, please enter a number")
 				continue
 			}
@@ -123,6 +126,14 @@ MenuLoop:
 			fmt.Println("Invalid option")
 		}
 	}
+
+	newTask2 := Task{ID: 1, Title: "Learn Go", Done: false}
+	newTask2.Print()
+	newTask2.Toggle()
+	newTask2.Print()
+	newTask2.Toggle()
+	newTask2.Print()
+
 }
 
 func addTask(tasks []Task, title string) []Task {
@@ -229,14 +240,14 @@ func (tm *TaskManager) DeleteTask(id int) bool {
 	return false
 }
 
-func (tm *TaskManager) FindTask(id int) (Task, bool) {
+func (tm *TaskManager) FindTask(id int) (Task, error) {
 	for i := range tm.tasks {
 		if tm.tasks[i].ID == id {
-			return tm.tasks[i], true
+			return tm.tasks[i], nil
 		}
 	}
 
-	return Task{}, false
+	return Task{}, fmt.Errorf("task with ID %d not found", id)
 }
 
 func (tm *TaskManager) ListDone() []Task {
@@ -266,5 +277,13 @@ func (tm *TaskManager) ListPending() []Task {
 func (tm *TaskManager) PrintTasks() {
 	for i := range tm.tasks {
 		tm.tasks[i].Print()
+	}
+}
+
+func (t *Task) Toggle() {
+	if t.Done {
+		t.Done = false
+	} else {
+		t.Done = true
 	}
 }
