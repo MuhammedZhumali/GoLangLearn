@@ -19,6 +19,7 @@ func main() {
 		{ID: 2, Title: "Leetcode solve", Done: true},
 		{ID: 3, Title: "Backend api build", Done: false},
 	}
+	/*
 	tasks = addTask(tasks, "New task check")
 
 	tasks = markDone(tasks, 3)
@@ -39,6 +40,7 @@ func main() {
 	} else {
 		fmt.Println("Task not found")
 	}
+	*/
 
 	for i := range tasks {
 		tasks[i].MarkDone()
@@ -97,7 +99,8 @@ MenuLoop:
 				fmt.Println("Invalid input, please enter a number")
 				continue
 			}
-			if tm.MarkDone(id) {
+			err = tm.MarkDone(id)
+			if err == nil {
 				fmt.Println("Task marked as done.")
 			} else {
 				fmt.Println("Task not found.")
@@ -111,10 +114,10 @@ MenuLoop:
 				fmt.Println("Invalid input, please enter a number")
 				continue
 			}
-			if tm.DeleteTask(id) {
+			if err := tm.DeleteTask(id); err == nil {
 				fmt.Println("Task deleted.")
 			} else {
-				fmt.Println("Task not found.")
+				fmt.Println("Error deleting task:", err)
 			}
 		case 4:
 			fmt.Println("Tasks:: ")
@@ -136,6 +139,7 @@ MenuLoop:
 
 }
 
+/*
 func addTask(tasks []Task, title string) []Task {
 	newID := len(tasks) + 1
 	newTask := Task{ID: newID, Title: title, Done: false}
@@ -188,6 +192,7 @@ func findTaskByID(tasks []Task, id int) (Task, bool) {
 
 	return Task{}, false
 }
+*/
 
 func (t Task) Print() {
 	if t.Done {
@@ -218,26 +223,26 @@ func (tm *TaskManager) AddTask(title string) {
 	tm.nextID++
 }
 
-func (tm *TaskManager) MarkDone(id int) bool {
+func (tm *TaskManager) MarkDone(id int) error {
 	for i := range tm.tasks {
 		if tm.tasks[i].ID == id {
 			tm.tasks[i].Done = true
-			return true
+			return nil
 		}
 	}
 
-	return false
+	return fmt.Errorf("Task with ID %d was not found", id)
 }
 
-func (tm *TaskManager) DeleteTask(id int) bool {
+func (tm *TaskManager) DeleteTask(id int) error {
 	for i := range tm.tasks {
 		if tm.tasks[i].ID == id {
 			tm.tasks = append(tm.tasks[:i], tm.tasks[i+1:]...)
-			return true
+			return nil
 		}
 	}
 
-	return false
+	return fmt.Errorf("task with ID %d not found", id)
 }
 
 func (tm *TaskManager) FindTask(id int) (Task, error) {
