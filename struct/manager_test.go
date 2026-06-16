@@ -43,29 +43,52 @@ func TestDeleteTask(t *testing.T) {
 func TestMarkDone(t *testing.T) {
 	tm := NewTaskManager()
 	tm.AddTask("Task test 1")
-	err := tm.MarkDone(1)
-	if err != nil {
-		t.Errorf("Expected no error when marking task as done, got %v", err)
+
+	tests := []struct {
+		id      int
+		wantErr bool
+	}{
+		{id: 999, wantErr: true},
+		{id: 1000, wantErr: true},
+		{id: 1, wantErr: false},
 	}
-	if tm.tasks[0].Done != true {
-		t.Errorf("Expected task done status true, got false")
-	}
-	err = tm.MarkDone(999)
-	if err == nil {
-		t.Errorf("Expected error when marking non-existent task as done, got nil")
+	for _, tt := range tests {
+		err := tm.MarkDone(tt.id)
+		if tt.wantErr && err == nil {
+			t.Errorf("Expected error when marking non-existent task with ID %d as done, got nil", tt.id)
+		}
+		if !tt.wantErr && err != nil {
+			t.Errorf("Expected to mark task with ID %d as done, got error %v", tt.id, err)
+		}
+		if !tt.wantErr && !tm.tasks[0].Done {
+			    t.Errorf("Expected task with ID %d to be done", tt.id)
+		}
 	}
 }
 
 func TestFindTask(t *testing.T) {
 	tm := NewTaskManager()
 	tm.AddTask("Task test 1")
-	_, err := tm.FindTask(1)
-	if err != nil {
-		t.Errorf("Expected to find task with ID 1, got error %v", err)
+
+	tests := []struct {
+		id      int
+		wantErr bool
+	}{
+		{id: 999, wantErr: true},
+		{id: 1000, wantErr: true},
+		{id: 1, wantErr: false},
 	}
-	_, err = tm.FindTask(999)
-	if err == nil {
-		t.Errorf("Expected error when finding non-existent task, got nil")
+	for _, tt := range tests {
+		task, err := tm.FindTask(tt.id)
+		if tt.wantErr && err == nil {
+			t.Errorf("Expected error when finding non-existent task with ID %d, got nil", tt.id)
+		}
+		if !tt.wantErr && err != nil {
+			t.Errorf("Expected to find task with ID %d, got error %v", tt.id, err)
+		}
+		if !tt.wantErr && task.ID != tt.id {
+			t.Errorf("Expected task with ID %d, got task with ID %d", tt.id, task.ID)
+		}
 	}
 }
 
