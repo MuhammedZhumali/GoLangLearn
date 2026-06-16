@@ -63,4 +63,11 @@ MenuLoop:
 			fmt.Println("Invalid option")
 		}
 	}
+
+	items := []Printable{
+		Task{ID: 1, Title: "Learn Go"},
+		Note{Text: "Check many structs in one interface"},
+	}
+
+	PrintAll(items)
 }
