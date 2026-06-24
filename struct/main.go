@@ -1,9 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"golanglearn/struct/todo"
+)
 
 func main() {
-	tm := NewTaskManager()
+	tm := todo.NewTaskManager()
 	tm.AddTask("Learn Go")
 	tm.AddTask("Build API")
 	tm.AddTask("Write tests")
@@ -64,21 +68,21 @@ MenuLoop:
 		}
 	}
 
-	items := []Printable{
-		Task{ID: 1, Title: "Learn Go"},
-		Note{Text: "Check many structs in one interface"},
+	items := []todo.Printable{
+		todo.Task{ID: 1, Title: "Learn Go"},
+		todo.Note{Text: "Check many structs in one interface"},
 	}
 
-	PrintAll(items)
+	todo.PrintAll(items)
 
 	fmt.Println(tm.Count())
 	tm.Clear()
 	fmt.Println(tm.Count())
 
-	items2 := []Describable{
-		Task{ID: 1, Title: "Learn Go", Done: false},
-		Note{Text: "Interfaces are behavior"},
+	items2 := []todo.Describable{
+		todo.Task{ID: 1, Title: "Learn Go", Done: false},
+		todo.Note{Text: "Interfaces are behavior"},
 	}
 
-	PrintDescriptions(items2)
+	todo.PrintDescriptions(items2)
 }
