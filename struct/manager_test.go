@@ -61,7 +61,7 @@ func TestMarkDone(t *testing.T) {
 			t.Errorf("Expected to mark task with ID %d as done, got error %v", tt.id, err)
 		}
 		if !tt.wantErr && !tm.tasks[0].Done {
-			    t.Errorf("Expected task with ID %d to be done", tt.id)
+			t.Errorf("Expected task with ID %d to be done", tt.id)
 		}
 	}
 }
@@ -108,5 +108,32 @@ func TestListDoneAndPending(t *testing.T) {
 	taskPending := tm.ListPending()
 	if len(taskPending) != 2 {
 		t.Errorf("Expected 2 pending tasks, got %d", len(taskPending))
+	}
+}
+
+func TestCount(t *testing.T) {
+	tm := NewTaskManager()
+	if tm.Count() != 0 {
+		t.Errorf("Expected to be new array of tasks")
+	}
+	tm.AddTask("Task test 1")
+	tm.AddTask("Task test 2")
+	if tm.Count() != 2 {
+		t.Errorf("Expected to be 2 tasks in array")
+	}
+
+	tm.DeleteTask(1)
+	if tm.Count() != 1 {
+		t.Errorf("After deleting task must be only 1")
+	}
+}
+
+func TestClear(t *testing.T) {
+	tm := NewTaskManager()
+	tm.AddTask("Task test 1")
+	tm.AddTask("Task test 2")
+	tm.Clear()
+	if tm.Count() != 0 {
+		t.Errorf("Must be 0 elements after Clear")
 	}
 }

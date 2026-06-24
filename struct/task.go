@@ -26,7 +26,6 @@ func (t *Task) Rename(newTitle string) {
 	t.Title = newTitle
 }
 
-
 func (t *Task) Toggle() {
 	if t.Done {
 		t.Done = false

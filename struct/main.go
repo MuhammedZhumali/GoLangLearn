@@ -69,5 +69,10 @@ MenuLoop:
 		Note{Text: "Check many structs in one interface"},
 	}
 
+	
 	PrintAll(items)
+
+	fmt.Println(tm.Count())
+	tm.Clear()
+	fmt.Println(tm.Count())
 }

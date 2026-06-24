@@ -79,3 +79,12 @@ func (tm *TaskManager) PrintTasks() {
 		tm.tasks[i].Print()
 	}
 }
+
+func (tm *TaskManager) Count() int {
+	cnt := len(tm.tasks)
+	return cnt
+}
+
+func (tm *TaskManager) Clear() {
+	tm.tasks = tm.tasks[:0]
+}
