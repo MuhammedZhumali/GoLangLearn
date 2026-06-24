@@ -69,10 +69,16 @@ MenuLoop:
 		Note{Text: "Check many structs in one interface"},
 	}
 
-	
 	PrintAll(items)
 
 	fmt.Println(tm.Count())
 	tm.Clear()
 	fmt.Println(tm.Count())
+
+	items2 := []Describable{
+		Task{ID: 1, Title: "Learn Go", Done: false},
+		Note{Text: "Interfaces are behavior"},
+	}
+
+	PrintDescriptions(items2)
 }

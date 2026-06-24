@@ -33,3 +33,8 @@ func (t *Task) Toggle() {
 		t.Done = true
 	}
 }
+
+func (t Task) Description() string {
+	msg := fmt.Sprintf("Task #%d: %s, done = %t\n", t.ID, t.Title, t.Done)
+	return msg
+}

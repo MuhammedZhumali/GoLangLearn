@@ -19,3 +19,17 @@ func PrintAll(items []Printable) {
 		item.Print()
 	}
 }
+
+type Describable interface {
+	Description() string
+}
+
+func (n Note) Description() string {
+	return fmt.Sprintf("Note: %s", n.Text)
+}
+
+func PrintDescriptions(items []Describable) {
+	for _, item := range items {
+		fmt.Println(item.Description())
+	}
+}
