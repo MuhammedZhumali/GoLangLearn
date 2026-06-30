@@ -21,6 +21,28 @@ func main() {
 	}()
 	wg.Wait()
 	fmt.Println("main finished")
+
+	// Channels
+	ch := make(chan string)
+	go func() {
+		ch <- "task completed"
+	}()
+	message := <-ch
+	fmt.Println(message)
+
+	ch2 := make(chan int)
+	go calculateSquare(7, ch2)
+	result := <-ch2
+	fmt.Println(result)
+
+	bufferedCh := make(chan int, 2)
+	bufferedCh <- 10
+	bufferedCh <- 20
+	//bufferedCh <- 30 // error
+	fmt.Println(<-bufferedCh)
+	fmt.Println(<-bufferedCh)
+	bufferedCh <- 30 // fine
+	fmt.Println(<-bufferedCh)
 }
 
 func printNumbers() {
@@ -36,4 +58,9 @@ func printLetters() {
 		time.Sleep(10 * time.Millisecond)
 		fmt.Println(str[i])
 	}
+}
+
+func calculateSquare(number int, ch chan<- int) {
+	number *= number
+	ch <- number
 }
