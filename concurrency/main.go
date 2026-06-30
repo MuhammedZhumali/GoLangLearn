@@ -54,6 +54,13 @@ func main() {
 	}
 	// numbers <- 40 // Panic
 
+	statusCh := make(chan string, 1)
+	statusCh <- "ready"
+	close(statusCh)
+	value, ok := <-statusCh
+	fmt.Println(value, ok)
+	value, ok = <-statusCh
+	fmt.Println(value, ok)
 }
 
 func printNumbers() {
