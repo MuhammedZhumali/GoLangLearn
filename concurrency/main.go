@@ -43,6 +43,17 @@ func main() {
 	fmt.Println(<-bufferedCh)
 	bufferedCh <- 30 // fine
 	fmt.Println(<-bufferedCh)
+
+	numbers := make(chan int, 3)
+	numbers <- 10
+	numbers <- 20
+	numbers <- 30
+	close(numbers)
+	for number := range numbers {
+		fmt.Println(number)
+	}
+	// numbers <- 40 // Panic
+
 }
 
 func printNumbers() {
