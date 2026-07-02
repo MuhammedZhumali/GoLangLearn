@@ -61,6 +61,39 @@ func main() {
 	fmt.Println(value, ok)
 	value, ok = <-statusCh
 	fmt.Println(value, ok)
+
+	firstCh := make(chan string)
+	secondCh := make(chan string)
+	go func() {
+		time.Sleep(100 * time.Millisecond)
+		firstCh <- "first"
+	}()
+
+	go func() {
+		time.Sleep(50 * time.Millisecond)
+		secondCh <- "second"
+	}()
+
+	for i := 0; i < 2; i++ {
+		select {
+		case msg1 := <-firstCh:
+			fmt.Println(msg1)
+		case msg2 := <-secondCh:
+			fmt.Println(msg2)
+		}
+	}
+
+	resultCh := make(chan string)
+	go func() {
+		time.Sleep(200 * time.Millisecond)
+		resultCh <- "result"
+	}()
+	select {
+	case res := <-resultCh:
+		fmt.Println(res)
+	case <-time.After(50 * time.Millisecond):
+		fmt.Println("timeout")
+	}
 }
 
 func printNumbers() {
