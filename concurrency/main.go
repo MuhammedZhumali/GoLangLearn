@@ -83,7 +83,7 @@ func main() {
 		}
 	}
 
-	resultCh := make(chan string)
+	resultCh := make(chan string, 1)
 	go func() {
 		time.Sleep(200 * time.Millisecond)
 		resultCh <- "result"
@@ -94,6 +94,25 @@ func main() {
 	case <-time.After(50 * time.Millisecond):
 		fmt.Println("timeout")
 	}
+
+	counter := 0	
+	var wg2 sync.WaitGroup
+	wg2.Add(2)
+	go func() {
+		defer wg2.Done()
+		for i := 0; i < 1000; i++ {
+			counter++
+		}
+	}()
+	go func() {
+		defer wg2.Done()
+		for i := 0; i < 1000; i++ {
+			counter++
+		}
+	}()
+
+	wg2.Wait()
+	fmt.Println("Counter:", counter)
 }
 
 func printNumbers() {
