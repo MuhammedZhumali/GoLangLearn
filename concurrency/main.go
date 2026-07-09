@@ -134,7 +134,7 @@ func main() {
 
 	stats := Stats{}
 	var wg3 sync.WaitGroup
-	wg3.Add(3)
+	wg3.Add(5)
 	go func() {
 		defer wg3.Done()
 		for i := 0; i < 100; i++ {
@@ -154,11 +154,32 @@ func main() {
 
 		}
 	}()
+	go func() {
+		defer wg3.Done()
+		for i := 0; i < 10; i++ {
+			stats.Count()
+		}
+		fmt.Println("reader count:", stats.Count())
+	}()
+	go func() {
+		defer wg3.Done()
+		for i := 0; i < 10; i++ {
+			stats.Sum()
+			stats.Average()
+		}
+	}()
+
 	wg3.Wait()
 	fmt.Println("Count:", stats.Count())
 	fmt.Println("Sum:", stats.Sum())
 	fmt.Println("Average:", stats.Average())
-	// fmt.Println("Snapshot:", stats.Snapshot())
+
+	snapshot := stats.Snapshot()
+	if len(snapshot) > 0 {
+		snapshot[0] = 999
+		fmt.Println("Snapshot first:", snapshot[0])
+		fmt.Println("Stats first:", stats.Snapshot()[0])
+	}
 }
 
 func printNumbers() {
