@@ -95,19 +95,26 @@ func main() {
 		fmt.Println("timeout")
 	}
 
-	counter := 0	
+	counter := 0
+	var mu sync.Mutex
 	var wg2 sync.WaitGroup
 	wg2.Add(2)
 	go func() {
 		defer wg2.Done()
 		for i := 0; i < 1000; i++ {
+			func(){
+			mu.Lock()
+			defer mu.Unlock() // Ensure the mutex is unlocked even if panic occurs
 			counter++
+			}()
 		}
 	}()
 	go func() {
 		defer wg2.Done()
 		for i := 0; i < 1000; i++ {
+			mu.Lock() // default behavior, but can lead to deadlocks if not handled properly
 			counter++
+			mu.Unlock()
 		}
 	}()
 
