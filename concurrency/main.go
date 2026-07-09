@@ -96,30 +96,36 @@ func main() {
 	}
 
 	counter := 0
-	var mu sync.Mutex
+	var mu sync.RWMutex
 	var wg2 sync.WaitGroup
 	wg2.Add(2)
+	/*
+		go func() {
+			defer wg2.Done()
+			for i := 0; i < 1000; i++ {
+				func(){
+				mu.Lock()
+				defer mu.Unlock() // Ensure the mutex is unlocked even if panic occurs
+				counter++
+				}()
+			}
+		}()*/
 	go func() {
 		defer wg2.Done()
 		for i := 0; i < 1000; i++ {
-			func(){
-			mu.Lock()
-			defer mu.Unlock() // Ensure the mutex is unlocked even if panic occurs
-			counter++
-			}()
+			safeIncrement(&counter, &mu)
 		}
 	}()
 	go func() {
 		defer wg2.Done()
 		for i := 0; i < 1000; i++ {
-			mu.Lock() // default behavior, but can lead to deadlocks if not handled properly
-			counter++
-			mu.Unlock()
+			safeIncrement(&counter, &mu)
 		}
 	}()
 
 	wg2.Wait()
 	fmt.Println("Counter:", counter)
+	fmt.Println("Safe Read:", safeRead(&counter, &mu))
 }
 
 func printNumbers() {
@@ -140,4 +146,17 @@ func printLetters() {
 func calculateSquare(number int, ch chan<- int) {
 	number *= number
 	ch <- number
+}
+
+func safeIncrement(counter *int, mu *sync.RWMutex) {
+	mu.Lock()
+	defer mu.Unlock()
+	*counter++
+}
+
+
+func safeRead(counter *int, mu *sync.RWMutex) int {
+	mu.RLock()
+	defer mu.RUnlock()
+	return *counter
 }
