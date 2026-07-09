@@ -8,6 +8,11 @@ import (
 	"time"
 )
 
+type Stats struct {
+	mu     sync.RWMutex
+	values []int
+}
+
 func main() {
 	var wg sync.WaitGroup
 	wg.Add(2)
@@ -126,6 +131,34 @@ func main() {
 	wg2.Wait()
 	fmt.Println("Counter:", counter)
 	fmt.Println("Safe Read:", safeRead(&counter, &mu))
+
+	stats := Stats{}
+	var wg3 sync.WaitGroup
+	wg3.Add(3)
+	go func() {
+		defer wg3.Done()
+		for i := 0; i < 100; i++ {
+			stats.AddValue(i)
+		}
+	}()
+	go func() {
+		defer wg3.Done()
+		for i := 0; i < 100; i++ {
+			stats.AddValue(i)
+		}
+	}()
+	go func() {
+		defer wg3.Done()
+		for i := 0; i < 100; i++ {
+			stats.AddValue(i)
+
+		}
+	}()
+	wg3.Wait()
+	fmt.Println("Count:", stats.Count())
+	fmt.Println("Sum:", stats.Sum())
+	fmt.Println("Average:", stats.Average())
+	// fmt.Println("Snapshot:", stats.Snapshot())
 }
 
 func printNumbers() {
@@ -154,9 +187,51 @@ func safeIncrement(counter *int, mu *sync.RWMutex) {
 	*counter++
 }
 
-
 func safeRead(counter *int, mu *sync.RWMutex) int {
 	mu.RLock()
 	defer mu.RUnlock()
 	return *counter
+}
+
+func (s *Stats) AddValue(value int) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.values = append(s.values, value)
+}
+
+func (s *Stats) Count() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return len(s.values)
+}
+
+func (s *Stats) Sum() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	sum := 0
+	for _, v := range s.values {
+		sum += v
+	}
+	return sum
+}
+
+func (s *Stats) Average() float64 {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	if len(s.values) == 0 {
+		return 0
+	}
+	avg := 0
+	for _, v := range s.values {
+		avg += v
+	}
+	return float64(avg) / float64(len(s.values))
+}
+
+func (s *Stats) Snapshot() []int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	snapshot := make([]int, len(s.values))
+	copy(snapshot, s.values)
+	return snapshot
 }
