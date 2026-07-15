@@ -42,93 +42,118 @@ func main() {
 		}
 	*/
 
-	var num1, num2 int
-	fmt.Println("Enter two numbers: ")
-	_, err := fmt.Scanln(&num1, &num2)
-	if err != nil {
-		fmt.Println("Invalid inputs")
-		return
-	}
-	if num2 > num1 {
-		fmt.Println(num2)
-	} else if num1 > num2 {
-		fmt.Println(num1)
-	} else {
-		fmt.Println("Both numbers are equal")
-	}
-
-	var num int
-	fmt.Println("Enter a number: ")
-	_, err = fmt.Scanln(&num)
-	if err != nil {
-		fmt.Println("Invalid input")
-		return
-	}
-	if num%2 == 0 {
-		fmt.Println("Number is even")
-	} else {
-		fmt.Println("Number is odd")
-	}
-
-	var grade int
-	fmt.Println("Enter your grade: ")
-	_, err = fmt.Scanln(&grade)
-	if err != nil {
-		fmt.Println("Invalid input")
-		return
-	}
-	if grade < 0 || grade > 100 {
-		fmt.Println("Invalid grade")
-		return
-	}
-	if grade >= 90 && grade <= 100 {
-		fmt.Println("A")
-	} else if grade >= 80 {
-		fmt.Println("B")
-	} else if grade >= 70 {
-		fmt.Println("C")
-	} else if grade >= 60 {
-		fmt.Println("D")
-	} else {
-		fmt.Println("F")
-	}
-
-	var operator string
-	var num11, num22 int
-	fmt.Println("Enter a first number: ")
-	_, err = fmt.Scanln(&num11)
-	if err != nil {
-		fmt.Println("Invalid input")
-		return
-	}
-	fmt.Println("Enter an operator (+, -, *, /): ")
-	_, err = fmt.Scanln(&operator)
-	if err != nil {
-		fmt.Println("Invalid operator")
-		return
-	}
-	fmt.Println("Enter a second number: ")
-	_, err = fmt.Scanln(&num22)
-	if err != nil {
-		fmt.Println("Invalid input")
-		return
-	}
-	switch operator {
-	case "+":
-		fmt.Println(num11 + num22)
-	case "-":
-		fmt.Println(num11 - num22)
-	case "*":
-		fmt.Println(num11 * num22)
-	case "/":
-		if num22 == 0 {
-			fmt.Println("Cannot divide by zero")
+	/*
+		var num1, num2 int
+		fmt.Println("Enter two numbers: ")
+		_, err := fmt.Scanln(&num1, &num2)
+		if err != nil {
+			fmt.Println("Invalid inputs")
 			return
 		}
-		fmt.Println(num11 / num22)
-	default:
-		fmt.Println("Invalid operator")
-		return
+		if num2 > num1 {
+			fmt.Println(num2)
+		} else if num1 > num2 {
+			fmt.Println(num1)
+		} else {
+			fmt.Println("Both numbers are equal")
+		}
+
+		var num int
+		fmt.Println("Enter a number: ")
+		_, err = fmt.Scanln(&num)
+		if err != nil {
+			fmt.Println("Invalid input")
+			return
+		}
+		if num%2 == 0 {
+			fmt.Println("Number is even")
+		} else {
+			fmt.Println("Number is odd")
+		}
+
+		var grade int
+		fmt.Println("Enter your grade: ")
+		_, err = fmt.Scanln(&grade)
+		if err != nil {
+			fmt.Println("Invalid input")
+			return
+		}
+		if grade < 0 || grade > 100 {
+			fmt.Println("Invalid grade")
+			return
+		}
+		if grade >= 90 && grade <= 100 {
+			fmt.Println("A")
+		} else if grade >= 80 {
+			fmt.Println("B")
+		} else if grade >= 70 {
+			fmt.Println("C")
+		} else if grade >= 60 {
+			fmt.Println("D")
+		} else {
+			fmt.Println("F")
+		}
+
+		var operator string
+		var num11, num22 int
+		fmt.Println("Enter a first number: ")
+		_, err = fmt.Scanln(&num11)
+		if err != nil {
+			fmt.Println("Invalid input")
+			return
+		}
+		fmt.Println("Enter an operator (+, -, *, /): ")
+		_, err = fmt.Scanln(&operator)
+		if err != nil {
+			fmt.Println("Invalid operator")
+			return
+		}
+		fmt.Println("Enter a second number: ")
+		_, err = fmt.Scanln(&num22)
+		if err != nil {
+			fmt.Println("Invalid input")
+			return
+		}
+		switch operator {
+		case "+":
+			fmt.Println(num11 + num22)
+		case "-":
+			fmt.Println(num11 - num22)
+		case "*":
+			fmt.Println(num11 * num22)
+		case "/":
+			if num22 == 0 {
+				fmt.Println("Cannot divide by zero")
+				return
+			}
+			fmt.Println(num11 / num22)
+		default:
+			fmt.Println("Invalid operator")
+			return
+		}
+	*/
+
+	for i := 1; i <= 10; i++ {
+		fmt.Println(i)
 	}
 
+	fmt.Println("Only even numbers")
+	for i := 1; i <= 20; i++ {
+		if i%2 == 0 {
+			fmt.Println(i)
+		}
+	}
+
+	var sum int
+	for i := 1; i <= 100; i++ {
+		sum += i
+	}
+	fmt.Println(sum)
+
+	var n int
+	fmt.Println("Enter a number: ")
+	fmt.Scanln(&n)
+	for i := 1; i < 10; i++ {
+		fmt.Printf("%d * %d = %d\n", n, i, n*i)
+	}
 }
