@@ -152,8 +152,67 @@ func main() {
 
 	var n int
 	fmt.Println("Enter a number: ")
-	fmt.Scanln(&n)
-	for i := 1; i < 10; i++ {
+	_, err := fmt.Scanln(&n)
+	if err != nil {
+		fmt.Println("Etner a correct input")
+		return
+	}
+	for i := 1; i <= 10; i++ {
 		fmt.Printf("%d * %d = %d\n", n, i, n*i)
 	}
+
+	var num int
+	fmt.Println("Enter a number for factorial: ")
+	_, err = fmt.Scanln(&num)
+	if err != nil {
+		fmt.Println("Etner a correct input")
+		return
+	}
+	if num < 0 {
+		fmt.Println("Factorial is not defined for negative numbers")
+		return
+	}
+
+	fact := 1
+	for i := 1; i <= num; i++ {
+		fact *= i
+	}
+	fmt.Println(fact)
+
+	var ent int
+	var summ int
+	fmt.Println("Enter a number(to stop hit 0): ")
+	for {
+		_, err = fmt.Scanln(&ent)
+		if err != nil {
+			fmt.Println("Input valid input")
+			return
+		}
+		if ent == 0 {
+			break
+		}
+		summ += ent
+	}
+	fmt.Println(summ)
+
+	var number int
+	fmt.Println("Enter a number")
+	_, err = fmt.Scanln(&number)
+	if err != nil {
+		fmt.Println("Input a valid number")
+		return
+	}
+	isPrime := true
+	if number <= 1 {
+		isPrime = false
+	}
+
+	for i := 2; i < number; i++ {
+		if number%i == 0 {
+			isPrime = false
+			break
+		}
+	}
+	fmt.Println(isPrime)
+
 }
